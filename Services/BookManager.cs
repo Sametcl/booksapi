@@ -12,18 +12,15 @@ namespace Services
     public class BookManager : IBookService
     {
         private readonly IRepositoryManager _manager;
-
-        public BookManager(IRepositoryManager manager)
+        private readonly ILoggerService _logger;
+        public BookManager(IRepositoryManager manager, ILoggerService logger)
         {
             _manager = manager;
+            _logger = logger;
         }
 
         public Book CreateOneBook(Book book)
         {
-            if (book==null)
-            {
-                throw new ArgumentNullException(nameof(book));
-            }
             _manager.Book.CreateOneBook(book);
             _manager.Save();
             return book;
@@ -31,10 +28,12 @@ namespace Services
 
         public void DeleteOneBook(int id, bool trackChanges)
         {
-            var entity= _manager.Book.GetOneBooksById(id,trackChanges);
-            if (entity==null)
+            var entity = _manager.Book.GetOneBooksById(id, trackChanges);
+            if (entity == null)
             {
-                throw new Exception($"Book with id:{id} could not found. ");
+                string message = $"The book with id :{id} could not found . ";
+                _logger.LogInfo(message);
+                throw new Exception(message);
             }
             _manager.Book.DeleteOneBook(entity);
             _manager.Save();
@@ -48,7 +47,7 @@ namespace Services
 
         public Book GetOneBookById(int id, bool trackChanges)
         {
-            return _manager.Book.GetOneBooksById(id,trackChanges);
+            return _manager.Book.GetOneBooksById(id, trackChanges);
         }
 
         public void UpdateOneBook(int id, Book book, bool trackChanges)
@@ -56,11 +55,13 @@ namespace Services
             var entity = _manager.Book.GetOneBooksById(id, trackChanges);
             if (entity == null)
             {
-                throw new Exception($"Book with id:{id} could not found. ");
+                string message = $"The book with id :{id} could not found . ";
+                _logger.LogInfo(message);
+                throw new Exception(message);
             }
-            if (book==null)
+            if (book == null)
             {
-                throw new ArgumentNullException(nameof(book));    
+                throw new ArgumentNullException(nameof(book));
             }
             entity.Title = book.Title;
             entity.Price = book.Price;

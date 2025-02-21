@@ -1,0 +1,8 @@
+2025-02-21 14:42:35.4753 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-02-21 14:42:35.4869 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-02-21 14:42:35.4945 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\CoreProject\efcorewebapi\nlog.config
+2025-02-21 14:42:35.4945 Info Configuration initialized.
+2025-02-21 14:44:08.9980 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-02-21 14:44:09.0120 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-02-21 14:44:09.0215 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\CoreProject\efcorewebapi\nlog.config
+2025-02-21 14:44:09.0215 Info Configuration initialized.
