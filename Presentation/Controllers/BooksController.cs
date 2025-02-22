@@ -1,4 +1,6 @@
-﻿using Entities.Models;
+﻿using AutoMapper.Configuration.Conventions;
+using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -61,26 +63,6 @@ namespace Presentation.Controllers
             }
         }
 
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] Book model)
-        {
-            try
-            {
-                if (model == null)
-                {
-                    return BadRequest();
-                }
-
-                _manager.BookService.UpdateOneBook(id, model, true);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteOneBook(int id)
         {
@@ -95,6 +77,27 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate bookDto)
+        {
+            try
+            {
+                if (bookDto == null)
+                {
+                    return BadRequest();
+                }
+
+                _manager.BookService.UpdateOneBook(id, bookDto, true);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpPatch("{id}")]
         public IActionResult PartiallyUpdateOneBook(int id, JsonPatchDocument<Book> bookPatch)
         {
@@ -107,7 +110,9 @@ namespace Presentation.Controllers
                     return NotFound();
                 }
                 bookPatch.ApplyTo(entity);
-                _manager.BookService.UpdateOneBook(id, entity, true);
+                _manager.BookService.UpdateOneBook(id,
+                    new BookDtoForUpdate(entity.Id, entity.Title, entity.Price),
+                    true);
                 return NoContent();
             }
             catch (Exception ex)
